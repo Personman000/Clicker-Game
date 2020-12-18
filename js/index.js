@@ -6,7 +6,7 @@ window.onresize = resize;
 function init(){
 	// Get main dot
 	main_dot = document.getElementById("main_dot");
-	dots = [main_dot]//document.getElementsByClassName("dot");
+	dots = document.getElementsByClassName("dot");
 
 	// Add commands
 	main_dot.onclick = spawndot;
@@ -25,18 +25,20 @@ function resize(){
 function movedots(){
 	var i = 0;
 	floating_div = document.getElementById("floating_div").getBoundingClientRect();
-	// Take all the listed elements and reposition them according to body height
+
+	// Get new center for main dot
+	var main_dot_new_top = (floating_div.top-(main_dot.offsetHeight/2));
+	var main_dot_new_left = (floating_div.left-(main_dot.offsetWidth/2));
+	
+	// Take all the sub dots and reposition them according to main dot position
 	for (let dot of dots)
 	{
-		dot.style.top = (floating_div.top-(dot.offsetHeight/2)) + "px";
-		dot.style.left = (floating_div.left-(dot.offsetWidth/2)) + "px";
-
-		i++;
-
-		console.log(dot);
-		console.log(dot.offsetHeight);
+		dot.style.top = (parseFloat(dot.style.top) - parseFloat(main_dot.style.top) + main_dot_new_top) + "px";		// Current position - old main_dot position + new main_dot position
+		dot.style.left = (parseFloat(dot.style.left) - parseFloat(main_dot.style.left) + main_dot_new_left) + "px";	// Current position - old main_dot position + new main_dot position
 	}
-	//console.log(floating_div.top + ", " + floating_div.left);
+
+	main_dot.style.top = main_dot_new_top + "px";
+	main_dot.style.left = main_dot_new_left + "px";
 };
 
 
