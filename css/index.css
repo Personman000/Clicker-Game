@@ -1,0 +1,12 @@
+#floating_div
+{
+	top: 50%;
+	left: 50%;
+	position: absolute;
+}
+
+#main_dot
+{
+	height: 50vh;
+	width: 50vh;
+}
