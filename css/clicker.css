@@ -8,4 +8,5 @@ body
 	background-color: #bbb;
 	border-radius: 50%;
 	position: absolute;
+	transition: 1s;
 }

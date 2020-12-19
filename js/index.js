@@ -41,7 +41,7 @@ function movedots(){
 };
 
 
-dot_offsets = [];
+dot_objects = [];
 dot_max_size = 10;
 i = 0;
 // Spawn a dot in a random radius, color, and size
@@ -67,16 +67,38 @@ function spawndot(){
 	var distance = getRndInteger(min_distance, max_distance);
 	var offset = getRndNumber(-3.2, 3.2);
 
-	new_dot.style.top = (floating_div.top + Math.sin(offset) * distance - 30) + "px";		// Center + rotation * distance from center - buffer
-	new_dot.style.left = (floating_div.left + Math.cos(offset) * distance - 30) + "px";	// Center + rotation * distance from center - buffer
 
 	//console.log(offset, distance, size);
 	console.log(new_dot.style.top, new_dot.style.left, new_dot.offsetHeight)
 
+	var final_top = (floating_div.top + Math.sin(offset) * distance - 30);
+	var final_left = (floating_div.left + Math.cos(offset) * distance - 30);
+
+	new_dot.style.top = final_top + "px";
+	new_dot.style.left = final_left + "px";
+
 	// Display new dot
 	document.body.appendChild(new_dot);
 
-	dot_offsets[i] = offset;
+	// Slide dor from center to orbit
+	new_dot.animate(
+		[
+			{ // from
+				top: floating_div.top - 15 + "px",
+				left: floating_div.left - 15 + "px",
+				opacity: 0
+			},
+			{ // to
+				top: final_top + "px",
+				left: final_left + "px",
+				opacity: 1
+			}
+		],
+		{ // timing options
+			duration: 1000,
+			easing: "ease-out"
+		}
+	);
 	i++;
 }
 
