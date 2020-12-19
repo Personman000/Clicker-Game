@@ -1,5 +1,4 @@
 //-- INITIALIZE
-
 window.onload = init;
 window.onresize = resize;
 
@@ -42,13 +41,16 @@ function movedots(){
 };
 
 
+dot_offsets = [];
 dot_max_size = 10;
+i = 0;
 // Spawn a dot in a random radius, color, and size
 function spawndot(){
 	
 	// Create new dot
 	var new_dot = document.createElement("div")
 	new_dot.className = "dot";
+	new_dot.id = i;
 
 	// Set size
 	var size = getRndInteger(1, dot_max_size);
@@ -63,16 +65,19 @@ function spawndot(){
 	max_distance = Math.min(vw, vh)/2 - size*Math.min(vw, vh)*0.01;						// Width of viewport - possible size of dot
 
 	var distance = getRndInteger(min_distance, max_distance);
-	var time = getRndNumber(-4, 4);
+	var offset = getRndNumber(-3.2, 3.2);
 
-	new_dot.style.top = (floating_div.top + Math.sin(time) * distance - 30) + "px";		// Center + rotation + distance from center
-	new_dot.style.left = (floating_div.left + Math.cos(time) * distance - 30) + "px";	// Center + rotation + distance from center
+	new_dot.style.top = (floating_div.top + Math.sin(offset) * distance - 30) + "px";		// Center + rotation * distance from center - buffer
+	new_dot.style.left = (floating_div.left + Math.cos(offset) * distance - 30) + "px";	// Center + rotation * distance from center - buffer
 
-	//console.log(time, distance, size);
+	//console.log(offset, distance, size);
 	console.log(new_dot.style.top, new_dot.style.left, new_dot.offsetHeight)
 
 	// Display new dot
 	document.body.appendChild(new_dot);
+
+	dot_offsets[i] = offset;
+	i++;
 }
 
 
