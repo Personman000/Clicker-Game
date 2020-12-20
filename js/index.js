@@ -2,6 +2,39 @@
 window.onload = init;
 window.onresize = resize;
 
+
+dot_objects = [];
+dot_max_size = 100;
+dot_min_size = 5;
+
+timestamp = null;
+lasttimestampt = null;
+delta_time = null;
+
+loop(0);
+
+function loop(timestamp){
+	// Set time vars if null
+	if(timestamp == null){
+		timestamp = 0;
+	}
+	if(lasttimestampt == null){
+		lasttimestampt = 0;
+	}
+
+	// Set time vars for current frame
+	delta_time = lasttimestampt - timestamp;
+	lasttimestampt = timestamp;
+
+	// Update positions of all dots
+	for(let dot_object of dot_objects){
+		dot_object.update(delta_time);
+	}
+
+	// Loop
+	window.requestAnimationFrame(loop);
+}
+
 function init(){
 	// Get main dot
 	main_dot = document.getElementById("main_dot");
@@ -25,80 +58,36 @@ function movedots(){
 	var i = 0;
 	floating_div = document.getElementById("floating_div").getBoundingClientRect();
 
-	// Get new center for main dot
-	var main_dot_new_top = (floating_div.top-(main_dot.offsetHeight/2));
-	var main_dot_new_left = (floating_div.left-(main_dot.offsetWidth/2));
-	
 	// Take all the sub dots and reposition them according to main dot position
 	for (let dot of dots)
 	{
 		dot.style.top = (parseFloat(dot.style.top) - parseFloat(main_dot.style.top) + main_dot_new_top) + "px";		// Current position - old main_dot position + new main_dot position
 		dot.style.left = (parseFloat(dot.style.left) - parseFloat(main_dot.style.left) + main_dot_new_left) + "px";	// Current position - old main_dot position + new main_dot position
 	}
-
-	main_dot.style.top = main_dot_new_top + "px";
-	main_dot.style.left = main_dot_new_left + "px";
 };
 
-
-dot_objects = [];
-dot_max_size = 10;
 i = 0;
 // Spawn a dot in a random radius, color, and size
 function spawndot(){
-	
-	// Create new dot
-	var new_dot = document.createElement("div")
-	new_dot.className = "dot";
-	new_dot.id = i;
+	// Set new dot variables
+	var size = getRndInteger(dot_min_size, dot_max_size);
+	var color = getRandomColor();
 
-	// Set size
-	var size = getRndInteger(1, dot_max_size);
-	new_dot.style.height = size + "vh";
-	new_dot.style.width = size + "vh";
-
-	// Set color
-	new_dot.style.backgroundColor = getRandomColor();
-
-	// Set position
-	min_distance = main_dot.offsetWidth/2 + dot_max_size + size*Math.min(vw, vh)*0.01;	// Width of main dot + possible size of dot + offset of dot
-	max_distance = Math.min(vw, vh)/2 - size*Math.min(vw, vh)*0.01;						// Width of viewport - possible size of dot
-
+	var min_distance = main_dot.getBBox().width/2 + size + 50;
+	var max_distance = Math.min(vw, vh)/2 - size;
 	var distance = getRndInteger(min_distance, max_distance);
+
 	var offset = getRndNumber(-3.2, 3.2);
+	var speed = getRndNumber(-0.001, 0.001);
+	while (speed == 0){
+		var speed = getRndNumber(-0.001, 0.001);
+	}
 
+	// Create new dot
+	var new_dot = new dot(size, color, distance, offset, speed, floating_div.left, floating_div.top);
+	document.getElementById("svg").appendChild(new_dot.build());
 
-	//console.log(offset, distance, size);
-	console.log(new_dot.style.top, new_dot.style.left, new_dot.offsetHeight)
-
-	var final_top = (floating_div.top + Math.sin(offset) * distance - 30);
-	var final_left = (floating_div.left + Math.cos(offset) * distance - 30);
-
-	new_dot.style.top = final_top + "px";
-	new_dot.style.left = final_left + "px";
-
-	// Display new dot
-	document.body.appendChild(new_dot);
-
-	// Slide dor from center to orbit
-	new_dot.animate(
-		[
-			{ // from
-				top: floating_div.top - 15 + "px",
-				left: floating_div.left - 15 + "px",
-				opacity: 0
-			},
-			{ // to
-				top: final_top + "px",
-				left: final_left + "px",
-				opacity: 1
-			}
-		],
-		{ // timing options
-			duration: 1000,
-			easing: "ease-out"
-		}
-	);
+	dot_objects[i]=new_dot;
 	i++;
 }
 
