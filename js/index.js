@@ -4,8 +4,8 @@ window.onresize = resize;
 
 
 dot_objects = [];
-dot_max_size = 100;
-dot_min_size = 5;
+dot_max_size = 50;
+dot_min_size = 1;
 
 timestamp = null;
 lasttimestampt = null;
@@ -59,10 +59,10 @@ function movedots(){
 	floating_div = document.getElementById("floating_div").getBoundingClientRect();
 
 	// Take all the sub dots and reposition them according to main dot position
-	for (let dot of dots)
+	for (let dot_object of dot_objects)
 	{
-		dot.style.top = (parseFloat(dot.style.top) - parseFloat(main_dot.style.top) + main_dot_new_top) + "px";		// Current position - old main_dot position + new main_dot position
-		dot.style.left = (parseFloat(dot.style.left) - parseFloat(main_dot.style.left) + main_dot_new_left) + "px";	// Current position - old main_dot position + new main_dot position
+		dot_object.centerY = floating_div.top;
+		dot_object.centerX = floating_div.left;
 	}
 };
 
@@ -73,20 +73,22 @@ function spawndot(){
 	var size = getRndInteger(dot_min_size, dot_max_size);
 	var color = getRandomColor();
 
-	var min_distance = main_dot.getBBox().width/2 + size + 50;
-	var max_distance = Math.min(vw, vh)/2 - size;
+	var min_distance = main_dot.getBBox().width/1.5;
+	var max_distance = Math.min(vw, vh)/1.5 - size;
 	var distance = getRndInteger(min_distance, max_distance);
 
-	var offset = getRndNumber(-3.2, 3.2);
+	var offset = getRndNumber(-Math.PI, Math.PI);
+	
 	var speed = getRndNumber(-0.001, 0.001);
 	while (speed == 0){
 		var speed = getRndNumber(-0.001, 0.001);
 	}
 
 	// Create new dot
-	var new_dot = new dot(size, color, distance, offset, speed, floating_div.left, floating_div.top);
+	var new_dot = new dot(size, color, distance, offset, speed, floating_div.left, floating_div.top, main_dot);
 	document.getElementById("svg").appendChild(new_dot.build());
 
+	console.log(new_dot);
 	dot_objects[i]=new_dot;
 	i++;
 }

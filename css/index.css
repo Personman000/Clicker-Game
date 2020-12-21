@@ -36,7 +36,7 @@ svg
 
 #main_dot
 {
-	r: 25vh;
+	r: 100;
 	cx: 50vw;
 	cy: 50vh;
 }
