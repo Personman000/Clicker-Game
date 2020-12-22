@@ -29,9 +29,24 @@ svg
 	height: 100%;
 }
 
-.dot, .main_dot {
+.dot, .main_dot
+{
 	fill: #bbb;
-	/*transition: 1s;*/
+	position: absolute;
+}
+
+.orbit
+{
+	stroke: lightgrey;
+	stroke-width: 1;
+	fill: none;
+	animation-name: fade-in;
+  	animation-duration: 0.5s;
+}
+
+@keyframes fade-in {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }
 
 #main_dot

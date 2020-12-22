@@ -89,8 +89,8 @@ function spawndot(){
 	}
 
 	// Create new dot
-	var new_dot = new dot(size, color, distance, offset, speed, this, main_dot);
-	document.getElementById("svg").appendChild(new_dot.build());
+	var new_dot = new dot(size, color, distance, offset, speed, this);
+	new_dot.build(document.getElementById("svg"));
 
 	// Give dot spawning rights if big enough
 	if(size > dot_min_size){

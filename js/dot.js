@@ -1,25 +1,35 @@
 class dot{
-	constructor(size, color, distance, offset, speed, center, main_dot){
+	constructor(size, color, distance, offset, speed, center){
 		this.size = size;
 		this.color = color;
 		this.distance = distance;
-		this.curr_distance = main_dot.getBBox().width/3;
+		this.curr_distance = center.getBBox().width/3;
 		this.offset = offset;
 		this.speed = speed;
 		this.center = center;
-		this.main_dot = main_dot;
-		this.element = null;
+		this.element = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+		this.orbit_dot = null;
 	}
 
-	build(){
-		this.element = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+	build(parent){
+		// Create dot
+		this.element.style.r = 0;						// Start at 0, grow to max
+		this.element.style.fill = this.color;			// Random color
 
-		this.element.style.r = 0;//this.size;
-		this.element.style.fill = this.color;
+		this.element.setAttribute('class', "dot");		// Set dot class
 
-		this.element.setAttribute('class', "dot");
+		parent.appendChild(this.element);				// Add to svg
 
-		return this.element;
+		// Create orbit
+		var orbit_dot = new dot(this.distance, null, 1, 0, 0, this.center);
+
+		orbit_dot.element.style.r = orbit_dot.size;		// Start at max size
+		orbit_dot.curr_distance = orbit_dot.distance;	// Start at max distance
+		orbit_dot.element.setAttribute('class', "dot");	// Set dot class
+		orbit_dot.element.classList.add("orbit");		// Set orbit class (to make outline-only)
+
+		this.orbit_dot = orbit_dot;						// Link current dot to orbit dot
+		parent.insertBefore(orbit_dot.element, parent.firstChild);	// Add orbit dot to svg
 	}
 
 	update(deltaTime){
@@ -33,12 +43,20 @@ class dot{
 			this.curr_distance += ((this.distance - this.curr_distance)/100);
 		}
 
+		// Move forward
 		this.offset += deltaTime * this.speed;
+		// If offset value is too high, reset to keep values low
 		if (Math.abs(this.offset) > 10*Math.PI){
 			this.offset = -this.offset;
 		}
 
+		// Update
 		this.updateOrbitPos();
+
+		// Also update orbit dot position
+		if(this.orbit_dot){
+			this.orbit_dot.update(deltaTime);
+		}
 	}
 
 	updateOrbitPos(){
