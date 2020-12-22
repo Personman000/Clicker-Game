@@ -2,6 +2,7 @@
 {
 	padding: 0;
 	margin: 0;
+	touch-action: manipulation;
 }
 
 html
@@ -14,6 +15,7 @@ body
 {
 	width: 100%;
 	height: 100%;
+	background-color: black;
 }
 
 #floating_div
@@ -49,6 +51,7 @@ svg
 	r: 100;
 	cx: 50vw;
 	cy: 50vh;
+	fill: white;
 }
 
 #button_container

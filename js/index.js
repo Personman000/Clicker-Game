@@ -114,12 +114,12 @@ function spawndot(){
 
 //-- SECONDARY FUNCTIONS
 function toggleorbits(){
-	white_block = document.getElementById("white_block");
+	block = document.getElementById("block");
 
-	if(white_block.style.opacity == 0){
-		white_block.style.opacity = 1;
+	if(block.style.opacity == 0){
+		block.style.opacity = 1;
 	}else{
-		white_block.style.opacity = 0;	
+		block.style.opacity = 0;	
 	}
 }
 
