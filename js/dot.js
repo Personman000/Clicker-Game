@@ -34,7 +34,7 @@ class dot{
 		}
 
 		this.offset += deltaTime * this.speed;
-		if (Math.abs(this.offset) > Math.PI){
+		if (Math.abs(this.offset) > 10*Math.PI){
 			this.offset = -this.offset;
 		}
 

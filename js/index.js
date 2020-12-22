@@ -80,9 +80,12 @@ function spawndot(){
 
 	var offset = getRndNumber(-Math.PI, Math.PI);
 	
-	var speed = getRndNumber(-0.001, 0.001);
-	while (speed == 0){
-		var speed = getRndNumber(-0.001, 0.001);
+	var speed = 0;
+	while(speed == 0){
+		speed = getRndNumber(0.0001, 0.0015);
+		if(getRndInteger(0, 1) == 0){
+			speed = -speed;
+		}
 	}
 
 	// Create new dot
