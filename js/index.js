@@ -38,8 +38,11 @@ function init(){
 	main_dot = document.getElementById("main_dot");
 	dots = document.getElementsByClassName("dot");
 
-	// Add commands
+	// Add spawn functionality
 	main_dot.onclick = spawndot;
+
+	// Add orbit toggle functionality
+	document.getElementById("toggle_orbits_button").addEventListener("click", toggleorbits);
 
 	resize();
 }
@@ -101,6 +104,17 @@ function spawndot(){
 	i++;
 
 	console.log(new_dot);
+}
+
+//-- SECONDARY FUNCTIONS
+function toggleorbits(){
+	white_block = document.getElementById("white_block");
+
+	if(white_block.style.opacity == 0){
+		white_block.style.opacity = 1;
+	}else{
+		white_block.style.opacity = 0;	
+	}
 }
 
 
