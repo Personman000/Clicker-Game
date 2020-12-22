@@ -4,8 +4,6 @@ window.onresize = resize;
 
 
 dot_objects = [];
-dot_max_size = 50;
-dot_min_size = 1;
 
 timestamp = null;
 lasttimestampt = null;
@@ -56,25 +54,28 @@ function resize(){
 // TODO: Store the distance of each dot so that they maintain those positions upon resizing
 function movedots(){
 	var i = 0;
-	floating_div = document.getElementById("floating_div").getBoundingClientRect();
+	center = main_dot.getBBox();
 
 	// Take all the sub dots and reposition them according to main dot position
 	for (let dot_object of dot_objects)
 	{
-		dot_object.centerY = floating_div.top;
-		dot_object.centerX = floating_div.left;
+		dot_object.centerY = center.y + center.height/2
+		dot_object.centerX = center.x + center.width/2
 	}
 };
 
+dot_min_size = 1;
 i = 0;
 // Spawn a dot in a random radius, color, and size
 function spawndot(){
 	// Set new dot variables
+	var dot_max_size = this.getBBox().width/4;
 	var size = getRndInteger(dot_min_size, dot_max_size);
+	
 	var color = getRandomColor();
 
-	var min_distance = main_dot.getBBox().width/1.5;
-	var max_distance = Math.min(vw, vh)/1.5 - size;
+	var min_distance = this.getBBox().width/1.5;
+	var max_distance = this.getBBox().width*3;
 	var distance = getRndInteger(min_distance, max_distance);
 
 	var offset = getRndNumber(-Math.PI, Math.PI);
@@ -85,12 +86,18 @@ function spawndot(){
 	}
 
 	// Create new dot
-	var new_dot = new dot(size, color, distance, offset, speed, floating_div.left, floating_div.top, main_dot);
+	var new_dot = new dot(size, color, distance, offset, speed, this, main_dot);
 	document.getElementById("svg").appendChild(new_dot.build());
 
-	console.log(new_dot);
+	// Give dot spawning rights if big enough
+	if(size > dot_min_size){
+		new_dot.element.onclick = spawndot;
+	}
+
 	dot_objects[i]=new_dot;
 	i++;
+
+	console.log(new_dot);
 }
 
 

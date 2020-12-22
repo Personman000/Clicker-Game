@@ -1,13 +1,12 @@
 class dot{
-	constructor(size, color, distance, offset, speed, centerX, centerY, main_dot){
+	constructor(size, color, distance, offset, speed, center, main_dot){
 		this.size = size;
 		this.color = color;
 		this.distance = distance;
 		this.curr_distance = main_dot.getBBox().width/3;
 		this.offset = offset;
 		this.speed = speed;
-		this.centerX = centerX;
-		this.centerY = centerY;
+		this.center = center;
 		this.main_dot = main_dot;
 		this.element = null;
 	}
@@ -17,9 +16,6 @@ class dot{
 
 		this.element.style.r = 0;//this.size;
 		this.element.style.fill = this.color;
-
-		this.element.style.cy = this.centerY;
-		this.element.style.cx = this.centerX;
 
 		this.element.setAttribute('class', "dot");
 
@@ -51,10 +47,10 @@ class dot{
 	}
 
 	getOrbitY(){
-		return (this.centerY + Math.sin(this.offset) * this.curr_distance);
+		return ((this.center.getBBox().y + this.center.getBBox().height/2) + Math.sin(this.offset) * this.curr_distance);
 	}
 
 	getOrbitX(){
-		return (this.centerX + Math.cos(this.offset) * this.curr_distance);
+		return ((this.center.getBBox().x + this.center.getBBox().width/2) + Math.cos(this.offset) * this.curr_distance);
 	}
 }
