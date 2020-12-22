@@ -46,8 +46,8 @@ class dot{
 		// Move forward
 		this.offset += deltaTime * this.speed;
 		// If offset value is too high, reset to keep values low
-		if (Math.abs(this.offset) > 10*Math.PI){
-			this.offset = -this.offset;
+		if (Math.abs(this.offset) >= 2*Math.PI){
+			this.offset = 0;
 		}
 
 		// Update

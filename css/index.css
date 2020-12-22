@@ -44,14 +44,21 @@ svg
   	animation-duration: 0.5s;
 }
 
-@keyframes fade-in {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
-
 #main_dot
 {
 	r: 100;
 	cx: 50vw;
 	cy: 50vh;
+}
+
+#button_container
+{
+	position: fixed;
+	left: 10px;
+	bottom: 10px;
+}
+
+@keyframes fade-in {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }
