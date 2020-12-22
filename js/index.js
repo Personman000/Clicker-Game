@@ -26,6 +26,9 @@ function loop(timestamp){
 
 	// Update positions of all dots
 	for(let dot_object of dot_objects){
+		if(pause){
+			delta_time = 0;
+		}
 		dot_object.update(delta_time);
 	}
 
@@ -43,6 +46,9 @@ function init(){
 
 	// Add orbit toggle functionality
 	document.getElementById("toggle_orbits_button").addEventListener("click", toggleorbits);
+
+	// Add pause functionality
+	document.getElementById("pause_button").addEventListener("click", togglepause);
 
 	resize();
 }
@@ -117,6 +123,10 @@ function toggleorbits(){
 	}
 }
 
+pause = false;
+function togglepause(){
+	pause = !pause;
+}
 
 //-- UTILITY FUNCTIONS
 function get_dimensions(){
