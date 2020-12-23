@@ -92,7 +92,7 @@ function spawndot(){
 	var speed = 0;
 	while(speed == 0){
 		speed = getRndNumber(0.0001, 0.0015);
-		if(getRndInteger(0, 1) == 0){
+		if(getRndInteger(0, 2) == 0){
 			speed = -speed;
 		}
 	}
